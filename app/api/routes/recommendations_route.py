@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException, Query
 from pydantic_core._pydantic_core import ValidationError
-
-from app.schemas.schema import RecommendationsSchema
-
+from app.utils.kafka import kafka_producer, send_recommendation_request
+from app.schemas.schema import RecommendationsRequest, RecommendationResponse, ErrorResponse
+import uuid
 router = APIRouter()
 
 @router.get("/recommendations")
@@ -11,10 +11,11 @@ async def get_recommendations(
         season: str = Query(..., description="The season in which the recommendations are desired.")
 ):
     try:
-        RecommendationsSchema(country=country, season=season)
-        recommendations = ["Visit the Eiffel Tower", "Explore the Louvre Museum",
-                           "Enjoy a boat tour along the Seine River"]
-        return {"recommendations": recommendations}
+        RecommendationsRequest(country=country, season=season)
+        producer = kafka_producer()
+        uid = str(uuid.uuid4())
+        request_data = {'country': country, 'season': season}
+        send_recommendation_request(producer, request_data, uid)
+        return RecommendationResponse(uid=uid, status="pending")
     except ValidationError as e:
-        err_str = "Invalid country or season"
-        raise HTTPException(status_code=422, detail=f"Unprocessable Entity - {err_str}")
+        raise HTTPException(status_code=404, detail=ErrorResponse(error="Unprocessable Entity", message={str(e)}).dict())

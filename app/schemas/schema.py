@@ -1,7 +1,8 @@
 from pydantic import BaseModel, Field, model_validator
+from typing import  List, Literal, Optional
 import pycountry
 
-class RecommendationsSchema(BaseModel):
+class RecommendationsRequest(BaseModel):
     country: str = Field(..., description="The country for which recommendations are to be fetched.")
     season: str = Field(..., description="The season in which the recommendations are desired.")
 
@@ -16,3 +17,15 @@ class RecommendationsSchema(BaseModel):
             raise ValueError(f"Invalid season. Must be one of {', '.join(valid_seasons)}")
 
         return values
+
+class RecommendationResponse(BaseModel):
+    uid: str
+    country: str
+    season: str = Literal["spring", "summer", "autumn", "winter"]
+    recommendations: Optional[List[str]] = None
+    status: str
+    message: Optional[str] = None
+
+class ErrorResponse(BaseModel):
+    error: str
+    message: str
