@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+pydantic
+pymongo
+asyncio
+confluent-kafka
+pycountry
