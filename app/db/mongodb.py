@@ -3,11 +3,11 @@ import pymongo
 from app.core.config import settings
 
 loop = asyncio.get_event_loop()
-client = pymongo.MongoClient(settings.MONGODB_URI, io_loop=loop)
+client = pymongo.MongoClient(settings.MONGODB_URI)
 db = client[settings.MONGODB_DATABASE]
 recommendations_collection = db["recommendations"]
 
-async def save_recommendation(uid, recommendations):
+async def save_recommendations(uid, recommendations):
     recommendation_doc = {
         "uid": uid,
         "recommendations": recommendations

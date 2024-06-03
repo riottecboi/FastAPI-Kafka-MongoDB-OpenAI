@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from app.db.mongodb import get_recommendations
-from app.schemas.schema import RecommendationResponse, ErrorResponse
+from app.schemas.schema import RecommendationResponse, RecommendationCheckResponse, ErrorResponse
 
 router = APIRouter()
 
@@ -12,4 +12,4 @@ async def get_status(uid: str):
 
     if recommendations:
         return RecommendationResponse(uid=uid, recommendations=recommendations, status="completed")
-    return RecommendationResponse(uid=uid, status="pending", message="The recommendations are not yet available. Please try again later.")
+    return RecommendationCheckResponse(uid=uid, status="pending", message="The recommendations are not yet available. Please try again later.")

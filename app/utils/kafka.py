@@ -1,38 +1,34 @@
-from confluent_kafka import Producer, Consumer
+from aiokafka import AIOKafkaProducer, AIOKafkaConsumer
 from app.core.config import settings
 
-def kafka_producer():
-    producer = Producer({
-        'bootstrap.servers': settings.KAFKA_BOOTSTRAP_SERVERS
-    })
-    return producer
-
-def send_recommendation_request(producer, request_data, uid):
-    producer.produce(
-        settings.KAFKA_TOPIC,
-        value=f"{uid}:{request_data}".encode("utf-8"),
+async def kafka_producer(request_data, uid):
+    producer = AIOKafkaProducer(
+        bootstrap_servers=settings.KAFKA_BOOTSTRAP_SERVERS
     )
-    producer.flush()
+    await producer.start()
+    await producer.send(
+        settings.KAFKA_TOPIC,
+        f"{uid}:{request_data}".encode("utf-8"), partition=0
+    )
+    await producer.stop()
 
-def kafka_consumer():
-    consumer = Consumer({
-        'bootstrap.servers': settings.KAFKA_BOOTSTRAP_SERVERS,
-        'group.id': settings.KAFKA_TOPIC,
-        'auto.offset.reset': 'earliest'
-    })
-    consumer.subscribe([settings.KAFKA_TOPIC])
-    return consumer
-
-def process_recommendation_request(consumer):
-    msg = consumer.poll(1.0)
-    if msg is None:
-        return None
-    if msg.error():
-        print(f"Consumer error: {msg.error()}")
-        return None
-
-    uid, request_data = msg.value().decode("utf-8").split(":", 1)
-
-    print(f"Processed recommendation request: {request_data}")
-    consumer.commit(asynchronous=True)
-    return uid
+async def kafka_consumer():
+    consumer = AIOKafkaConsumer(
+        settings.KAFKA_TOPIC,
+        bootstrap_servers=settings.KAFKA_BOOTSTRAP_SERVERS,
+        group_id=settings.KAFKA_TOPIC,
+        auto_offset_reset='earliest'
+    )
+    await consumer.start()
+    try:
+        async for msg in consumer:
+            print(msg)
+            uid, request_data = msg.value.decode("utf-8").split(":", 1)
+            print(uid)
+            print(f"Processed recommendation request: {request_data}")
+            await consumer.commit()
+            return uid
+    except Exception as e:
+        print(f"Consumer error: {e}")
+    finally:
+        await consumer.stop()

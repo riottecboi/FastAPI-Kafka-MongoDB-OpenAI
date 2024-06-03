@@ -18,13 +18,18 @@ class RecommendationsRequest(BaseModel):
 
         return values
 
-class RecommendationResponse(BaseModel):
+
+class RecommendationSubmitResponse(BaseModel):
     uid: str
-    country: str
-    season: str = Literal["spring", "summer", "autumn", "winter"]
-    recommendations: Optional[List[str]] = None
     status: str
+
+class RecommendationCheckResponse(RecommendationSubmitResponse):
     message: Optional[str] = None
+
+class RecommendationResponse(RecommendationCheckResponse):
+    country: Optional[str] = None
+    season: Optional[Literal["spring", "summer", "autumn", "winter"]] = None
+    recommendations: Optional[List[str]] = None
 
 class ErrorResponse(BaseModel):
     error: str
