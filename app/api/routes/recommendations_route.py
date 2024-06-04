@@ -17,4 +17,4 @@ async def get_recommendations(
         await kafka_producer(request_data, uid)
         return RecommendationSubmitResponse(uid=uid, status="pending")
     except ValidationError as e:
-        raise HTTPException(status_code=404, detail=ErrorResponse(error="Unprocessable Entity", message={str(e)}).dict())
+        raise HTTPException(status_code=422, detail=ErrorResponse(error="Invalid country/season", message="The input of country or season is invalid. Please try again.").dict())

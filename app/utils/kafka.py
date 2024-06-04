@@ -22,12 +22,10 @@ async def kafka_consumer():
     await consumer.start()
     try:
         async for msg in consumer:
-            print(msg)
             uid, request_data = msg.value.decode("utf-8").split(":", 1)
-            print(uid)
             print(f"Processed recommendation request: {request_data}")
             await consumer.commit()
-            return uid
+            return uid, eval(request_data)
     except Exception as e:
         print(f"Consumer error: {e}")
     finally:
