@@ -5,3 +5,4 @@ pymongo
 asyncio
 confluent-kafka
 pycountry
+openai
