@@ -5,7 +5,7 @@ from app.schemas.schema import RecommendationsRequest, RecommendationSubmitRespo
 import uuid
 router = APIRouter()
 
-@router.get("/recommendations")
+@router.post("/recommendations")
 async def get_recommendations(
         country: str = Query(..., description="The country for which recommendations are to be fetched."),
         season: str = Query(..., description="The season in which the recommendations are desired.")
