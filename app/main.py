@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.api.routes import recommendations_route, status_route
+from api.routes import recommendations_route, status_route
 
 app = FastAPI(
     title="Travel Recommendations API",

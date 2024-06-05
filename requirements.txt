@@ -3,6 +3,7 @@ uvicorn
 pydantic
 pymongo
 asyncio
-confluent-kafka
+aiokafka
 pycountry
 openai
+pydantic-settings==2.2.1

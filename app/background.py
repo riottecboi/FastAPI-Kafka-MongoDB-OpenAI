@@ -1,7 +1,7 @@
 import asyncio
-from app.utils.kafka import kafka_consumer
-from app.db.mongodb import save_recommendations
-from app.api.openai_api import get_openai_recommendation
+from utils.kafka import kafka_consumer
+from db.mongodb import save_recommendations
+from api.openai_api import get_openai_recommendation
 
 async def handle_request(uid, request_data):
     try:

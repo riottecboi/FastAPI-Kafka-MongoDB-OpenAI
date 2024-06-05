@@ -1,5 +1,5 @@
 from aiokafka import AIOKafkaProducer, AIOKafkaConsumer
-from app.core.config import settings
+from core.config import settings
 
 async def kafka_producer(request_data, uid):
     producer = AIOKafkaProducer(

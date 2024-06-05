@@ -1,5 +1,5 @@
 from openai import OpenAI
-from app.core.config import settings
+from core.config import settings
 
 async def get_openai_recommendation(request_data):
     try:

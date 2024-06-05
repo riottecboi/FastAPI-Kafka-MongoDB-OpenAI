@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
-from app.db.mongodb import get_recommendations
-from app.schemas.schema import RecommendationResponse, RecommendationCheckResponse, ErrorResponse
+from db.mongodb import get_recommendations
+from schemas.schema import RecommendationResponse, RecommendationCheckResponse, ErrorResponse
 
 router = APIRouter()
 

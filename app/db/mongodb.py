@@ -1,6 +1,6 @@
 import asyncio
 import pymongo
-from app.core.config import settings
+from core.config import settings
 
 loop = asyncio.get_event_loop()
 client = pymongo.MongoClient(settings.MONGODB_URI)

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Query
 from pydantic_core._pydantic_core import ValidationError
-from app.utils.kafka import kafka_producer
-from app.schemas.schema import RecommendationsRequest, RecommendationSubmitResponse, ErrorResponse
+from utils.kafka import kafka_producer
+from schemas.schema import RecommendationsRequest, RecommendationSubmitResponse, ErrorResponse
 import uuid
 router = APIRouter()
 
