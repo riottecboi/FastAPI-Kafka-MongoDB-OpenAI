@@ -83,8 +83,4 @@ Now, the FastAPI run on port 3000 at your machine
 <img src="demo/screenshots/logs.png" alt="docker">
 
 
-## Demo
-
-<video src='demo/video/demo.mp4' width=180/></video>
-
 
