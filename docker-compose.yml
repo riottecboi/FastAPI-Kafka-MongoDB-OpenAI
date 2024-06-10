@@ -17,8 +17,9 @@ services:
       - "9092:9092"
     environment:
       KAFKA_BROKER_ID: 1
+      KAFKA_ADVERTISED_HOST_NAME: kafka:29092
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092 # If we have tow listener on the same port then one needs to be IPv4 oher IPv6 or have to different port
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092 # If we have two listeners on the same port then one needs to be IPv4 oher IPv6 or have to different port
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
@@ -55,3 +56,18 @@ services:
       - 8888:8081
     environment:
       ME_CONFIG_MONGODB_SERVER: mongodb
+
+  fastapi-app:
+    build:
+      context: .
+      args:
+        NO_CACHE: "true"
+    depends_on:
+      - kafka
+      - mongodb
+    ports:
+      - "8000:8000"
+    environment:
+      OPENAI_KEY: "xxxx"
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      MONGODB_URI: mongodb://root:root@mongodb:27017
