@@ -12,7 +12,7 @@ COPY app/core /app/core
 COPY app/db /app/db
 COPY app/schemas /app/schemas
 COPY app/utils /app/utils
-COPY app/background.py /app/background.py
+COPY app/background-worker.py /app/background.py
 COPY app/main.py /app/main.py
 
 RUN pip3 install --no-cache-dir -r requirements.txt

@@ -54,7 +54,7 @@ Running a script
 uvicorn main:app --host 0.0.0.0 --port 3000
 
 # Run a background worker
-python3.11 background.py
+python3.11 background-worker.py
 ```
 
 ## Docker
