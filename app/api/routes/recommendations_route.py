@@ -15,6 +15,6 @@ async def get_recommendations(
         uid = str(uuid.uuid4())
         request_data = {'country': country, 'season': season}
         await kafka_producer(request_data, uid)
-        return RecommendationSubmitResponse(uid=uid, status="pending")
+        return RecommendationSubmitResponse(uid=uid)
     except ValidationError as e:
         raise HTTPException(status_code=422, detail=ErrorResponse(error="Invalid country/season", message="The input of country or season is invalid. Please try again.").dict())

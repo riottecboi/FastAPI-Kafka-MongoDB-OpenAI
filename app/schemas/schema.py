@@ -21,10 +21,10 @@ class RecommendationsRequest(BaseModel):
 
 class RecommendationSubmitResponse(BaseModel):
     uid: str
-    status: str
 
 class RecommendationCheckResponse(RecommendationSubmitResponse):
     message: Optional[str] = None
+    status: str
 
 class RecommendationResponse(RecommendationCheckResponse):
     country: Optional[str] = None
